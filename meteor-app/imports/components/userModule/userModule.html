@@ -1,0 +1,14 @@
+<header>
+  <h1>create User</h1>
+  <form class="create-user" ng-submit="$ctrl.createUser($ctrl.newUser)">
+    <input type="text" ng-model="$ctrl.newUser.username">
+    <input type="password" ng-model="$ctrl.newUser.password">
+    <button type="submit">create user</button>
+  </form>
+</header>
+
+<ul>
+  <li ng-repeat="user in $ctrl.users">
+    <span>{{user.username}}</span> <span ng-show="user._logged">(Logged)</span>
+  </li>
+</ul>
