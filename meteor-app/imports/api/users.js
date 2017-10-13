@@ -7,13 +7,18 @@ export const Users = Meteor.users;
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('userList', function tasksPublication() {
-    return Meteor.users.find();
+    return Users.find();
   });
 }
 
 Meteor.methods({
   'users.insert' (newUser) {
-    console.log(newUser);
-    return Accounts.createUser(newUser);
+    Users.find().map(v => {
+        if(v.username == newUser.username) {
+          throw new Meteor.Error('Please choose different username');
+        }else {
+          return Accounts.createUser(newUser);
+        }
+    });
   }
 });

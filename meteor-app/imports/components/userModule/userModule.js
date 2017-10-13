@@ -12,9 +12,16 @@ class UserCtrl {
 
       this.newUser = {};
       this.Arr = [];
+      this.currentUserId = Meteor.userId();
       this.helpers({
         users() {
-          return Users.find();
+          this.Arr = [];
+          Users.find().map(v => {
+            if(Meteor.userId() == v._id) {
+              v._logged = true;
+            }
+            this.Arr.push(v);
+          });
         },
         currentUser() {
           return Meteor.user();
@@ -22,14 +29,9 @@ class UserCtrl {
       })
   }
 
-  loggedInUser(idUser) {
-    console.log(idUser);
-    return (idUser._id === Meteor.userId()) ? idUser._logged = true : idUser._logged = false;
-  }
-
   createUser(newUser) {
-    console.log(newUser);
     Meteor.call('users.insert', newUser);
+    this.newUser = {};
   }
 }
 
